@@ -1,8 +1,9 @@
-# Complete Kong Gateway Operator Setup
-# This file creates everything needed to get Kong Gateway Operator running
+# Complete Kong Gateway Setup (for workloads)
+# Note: Kong Gateway Operator should be installed in kong-system namespace separately
+# This file creates your gateway workloads in the kong namespace
 
 ---
-# Create the kong namespace
+# Create the kong namespace for workloads
 apiVersion: v1
 kind: Namespace
 metadata:
@@ -87,16 +88,18 @@ spec:
     allowedRoutes:
       namespaces:
         from: All
-  - name: https
-    port: 443
-    protocol: HTTPS
-    allowedRoutes:
-      namespaces:
-        from: All
-    tls:
-      mode: Terminate
-      # certificateRefs:
-      # - name: kong-tls-secret  # Uncomment and create your TLS secret
+  # HTTPS listener removed until you have a TLS certificate
+  # Uncomment the section below when you have a TLS secret
+  # - name: https
+  #   port: 443
+  #   protocol: HTTPS
+  #   allowedRoutes:
+  #     namespaces:
+  #       from: All
+  #   tls:
+  #     mode: Terminate
+  #     certificateRefs:
+  #     - name: kong-tls-secret
 
 ---
 # Example HTTPRoute - routes traffic to your applications
@@ -135,7 +138,7 @@ spec:
   ports:
   - port: 80
     targetPort: 8080
-  type: NodePort
+  type: ClusterIP
 
 ---
 # Example Deployment (for demonstration)
