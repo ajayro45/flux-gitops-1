@@ -3,4 +3,3 @@ kind: Kustomization
 resources:
   - https://github.com/Kong/gateway-operator/config/crd?ref=v1.2.0
   - https://github.com/Kong/gateway-operator/config/default?ref=v1.2.0
-  - kong-deployment.yml
